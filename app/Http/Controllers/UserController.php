@@ -2,24 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ForgotPasswordEmail;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Services\JwtService;
+use App\Services\Email\MailServiceInterface;
+use App\Services\Jwt\JwtServiceInterface;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     protected Request $request;
-    protected JwtService $jwtService;
+    protected JwtServiceInterface $jwtService;
+    protected MailServiceInterface $mailService;
     protected UserRepositoryInterface $userRepo;
     public function __construct(
         Request $request,
-        JwtService $jwtService,
+        JwtServiceInterface $jwtService,
+        MailServiceInterface $mailService,
         UserRepositoryInterface $userRepo,
     )
     {
         $this->request = $request;
         $this->jwtService = $jwtService;
+        $this->mailService = $mailService;
         $this->userRepo = $userRepo;
     }
     public function register(){
@@ -143,6 +148,16 @@ class UserController extends Controller
         $data = [
             'code' => rand(100000, 999999),
         ];
+        try {
+            $this->mailService->sendMail($user[User::_EMAIL], new ForgotPasswordEmail($data['code']));
+        } catch (\Exception $exception){
+            $this->message = $exception->getMessage();
+            $this->code = 500;
+            goto next;
+        }
+
+        $this->status = "success";
+        $this->message = "user forgotten password successfully";
         next:
         return $this->responseData($data);
     }

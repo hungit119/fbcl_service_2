@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/preview/forgot-password', function () {
+    return new \App\Mail\ForgotPasswordEmail(227887,"Trần Duy Hùng");
+});
