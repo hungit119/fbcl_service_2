@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,8 +21,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'v1'], function () {
+    //    auth
     Route::post('register', [UserController::class, 'register']);
-    Route::post('login', [UserController::class,'login']);
+    Route::post('login', [UserController::class, 'login']);
     Route::post('forgot-password', [UserController::class, 'forgotPassword']);
-    Route::group(['middleware' => ['verifyTokenApp']], function () {});
+    Route::group(['middleware' => ['verifyTokenApp']], function () {
+        Route::post('update-user-by-params', [UserController::class, 'updateUserByParams']);
+    });
+
+    Route::group(['middleware' => ['verifyToken']], function () {
+        // post
+        Route::post('create-post', [PostController::class, 'createPost']);
+    });
 });

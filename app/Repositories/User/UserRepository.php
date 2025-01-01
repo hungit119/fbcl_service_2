@@ -61,4 +61,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return $this->_model->whereNull(User::_DELETED_AT)->where(User::_EMAIL, $email)->first();
     }
+    public function firstByID($userID)
+    {
+        return $this->_model->where(User::_ID, $userID)->whereNull(User::_DELETED_AT)->first();
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('submit-forgot-password', [UserController::class, 'submitForgotPassword']);
+Route::post('confirm-forgot-password/{user_id}', [UserController::class, 'confirmForgotPassword'])->name('confirmForgotPassword');
 
 Route::get('/preview/forgot-password', function () {
-    return new \App\Mail\ForgotPasswordEmail(227887,"Trần Duy Hùng");
+    $token = new \App\Services\Jwt\JwtService();
+    $jwt = $token->createJwtToken([
+        'user_id' => 1
+    ]);
+    return new \App\Mail\ForgotPasswordEmail([
+        'code' => rand(100000, 999999),
+        'fullname' => "Trần Duy Hùng",
+        'url' => Config('environment.ROOT_DOMAIN') . '/submit-forgot-password?token='.$jwt
+    ]);
 });

@@ -22,11 +22,11 @@ return new class extends Migration
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
             $table->dateTime('deleted_at')->nullable();
-            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger('post_id')->nullable();
             $table->foreign('post_id')->references('id')->on('posts');
-            $table->unsignedBigInteger('new_id');
+            $table->unsignedBigInteger('new_id')->nullable();
             $table->foreign('new_id')->references('id')->on('news');
-            $table->unsignedBigInteger('remarkable_id');
+            $table->unsignedBigInteger('remarkable_id')->nullable();
             $table->foreign('remarkable_id')->references('id')->on('remarkables');
         });
 
