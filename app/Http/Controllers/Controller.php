@@ -12,9 +12,10 @@ use Illuminate\Support\Facades\Validator;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    protected $status = 'fail';
+
+    protected $status  = 'fail';
     protected $message = '';
-    protected $code = 200;
+    protected $code    = 200;
 
     protected $lang = "vi";
 
@@ -22,6 +23,7 @@ class Controller extends BaseController
     {
         $this->setLanguage();
     }
+
     /**
      * Set the language for the application based on the request or server headers.
      */
@@ -74,10 +76,10 @@ class Controller extends BaseController
     protected function responseData(mixed $data = [], array|string $more = '', int $code = 200)
     {
         $res = [
-            'status' => $this->status,
+            'status'  => $this->status,
             'message' => $this->message,
-            'code' => $this->code,
-            'data' => $data
+            'code'    => $this->code,
+            'data'    => $data
         ];
         if ($more) {
             $res = array_merge($res, $more);
