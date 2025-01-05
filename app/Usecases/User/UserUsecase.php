@@ -2,18 +2,23 @@
 
 namespace App\Usecases\User;
 
+use App\Models\Friend;
 use App\Models\User;
+use App\Repositories\Friend\FriendRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Usecases\BaseUsecase;
 
 class UserUsecase extends BaseUsecase implements UserUsecaseInterface
 {
     protected UserRepositoryInterface $userRepo;
+    protected FriendRepositoryInterface $friendRepo;
     public function __construct(
-        UserRepositoryInterface $userRepo
+        UserRepositoryInterface $userRepo,
+        FriendRepositoryInterface $friendRepo
     )
     {
         $this->userRepo = $userRepo;
+        $this->friendRepo = $friendRepo;
     }
 
     public function updateUserByParams($id, array $dataUpdate)
@@ -49,5 +54,30 @@ class UserUsecase extends BaseUsecase implements UserUsecaseInterface
         }
         $update[User::_UPDATED_AT] = date('Y-m-d H:i:s');
         return $this->userRepo->update($id, $update);
+    }
+
+    public function getUserInfo(mixed $userID)
+    {
+
+        $select = [
+            User::_ID,
+            User::_FULLNAME,
+            User::_AVATAR,
+            User::_POSTER,
+            User::_WORK_INFO,
+            User::_EDUCATION_INFO,
+            User::_ADDRESS,
+            User::_RELATIONSHIP
+        ];
+        $userInfo = $this->userRepo->getByID($userID,$select);
+
+        $friendIDs = $this->friendRepo->getByUserID($userID)->pluck(Friend::_FRIEND_ID)->toArray();
+        $friendInfos = $this->userRepo->getUserInfoByUserIDs($friendIDs,$select)->toArray();
+
+        $data = [
+            'userInfo' => $userInfo,
+            'friendInfos' => $friendInfos
+        ];
+        return $data;
     }
 }
