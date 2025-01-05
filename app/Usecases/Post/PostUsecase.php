@@ -100,4 +100,9 @@ class PostUsecase extends BaseUsecase implements PostUsecaseInterface
         }
         return $dataInsert;
     }
+
+    public function getListPost ($params) {
+        $post = $this->postRepo->getListByParams($params);
+        return $post;
+    }
 }

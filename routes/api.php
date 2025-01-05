@@ -32,5 +32,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['middleware' => ['verifyToken']], function () {
         // post
         Route::post('create-post', [PostController::class, 'createPost']);
+        Route::get('get-list-post', [PostController::class, 'getListPost']);
+        // user
+        Route::get('get-user-info', [UserController::class, 'getUserInfo']);
     });
 });

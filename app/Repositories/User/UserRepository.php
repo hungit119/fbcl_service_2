@@ -65,4 +65,14 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return $this->_model->where(User::_ID, $userID)->whereNull(User::_DELETED_AT)->first();
     }
+
+    public function getByID(mixed $userID, $select=["*"])
+    {
+        return $this->_model->select($select)->where(User::_ID, $userID)->whereNull(User::_DELETED_AT)->first();
+    }
+
+    public function getUserInfoByUserIDs($friendIDs, array $select=["*"])
+    {
+        return $this->_model->whereIn(User::_ID, $friendIDs)->select($select)->whereNull(User::_DELETED_AT)->get();
+    }
 }

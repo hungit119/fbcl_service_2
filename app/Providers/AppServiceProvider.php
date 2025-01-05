@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Friend\FriendRepository;
+use App\Repositories\Friend\FriendRepositoryInterface;
 use App\Repositories\Images\ImageRepository;
 use App\Repositories\Images\ImageRepositoryInterface;
 use App\Repositories\Post\PostRepository;
@@ -14,6 +16,8 @@ use App\Services\Email\MailService;
 use App\Services\Email\MailServiceInterface;
 use App\Services\Jwt\JwtService;
 use App\Services\Jwt\JwtServiceInterface;
+use App\Usecases\Friend\FriendUsecase;
+use App\Usecases\Friend\FriendUsecaseInterface;
 use App\Usecases\Post\PostUsecase;
 use App\Usecases\Post\PostUsecaseInterface;
 use App\Usecases\User\UserUsecase;
@@ -60,6 +64,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             PostUsecaseInterface::class,
             PostUsecase::class
+        );
+        $this->app->singleton(
+            FriendRepositoryInterface::class,
+            FriendRepository::class
+        );
+        $this->app->singleton(
+            FriendUsecaseInterface::class,
+            FriendUsecase::class
         );
     }
 

@@ -16,4 +16,8 @@ interface UserRepositoryInterface extends RepositoryInterface
     public function findByEmail(mixed $email);
 
     public function firstByID(mixed $userID);
+
+    public function getByID(mixed $userID,$select);
+
+    public function getUserInfoByUserIDs($friendIDs, array $select);
 }

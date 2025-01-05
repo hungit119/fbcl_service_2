@@ -250,4 +250,23 @@ class UserController extends Controller
         $this->userUsecase->updateUserByParams($user_id, $dataUpdate);
         return view('congratulate')->with(['url' => Config('environment.APP_DOMAIN')]);
     }
+
+    // user info
+    public function getUserInfo(){
+        $validated = $this->validateBase($this->request,[
+            'user_id' => 'required'
+        ]);
+        if ($validated) {
+            $this->message = "validation fail";
+            $this->code    = 422;
+            return $this->responseData($validated);
+        }
+        $userID = $this->request->get('user_id');
+
+        $userInfo = $this->userUsecase->getUserInfo($userID);
+
+        $this->message = "get user info successfully";
+        $this->status = "success";
+        return $this->responseData($userInfo);
+    }
 }
