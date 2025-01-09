@@ -21,6 +21,8 @@ class User extends Model
     const _GENDER = 'gender';
     const _RELATIONSHIP = 'relationship';
     const _DOB = 'dob';
+    const _AVATAR = 'avatar';
+    const _POSTER = 'poster';
     const _PASSWORD = 'password';
     const _CREATED_AT = 'created_at';
     const _UPDATED_AT = 'updated_at';
@@ -43,6 +45,8 @@ class User extends Model
         self::_GENDER,
         self::_RELATIONSHIP,
         self::_DOB,
+        self::_AVATAR,
+        self::_POSTER,
         self::_PASSWORD,
         self::_CREATED_AT,
         self::_UPDATED_AT,

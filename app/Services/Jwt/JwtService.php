@@ -1,8 +1,10 @@
 <?php
-namespace App\Services;
+namespace App\Services\Jwt;
+use App\Services\BaseService;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-class JwtService
+
+class JwtService extends BaseService implements JwtServiceInterface
 {
     public function __construct()
     {

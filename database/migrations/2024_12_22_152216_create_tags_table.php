@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('post_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('post_id')->references('id')->on('posts');
-            $table->primary('post_id','user_id');
+            $table->primary(['post_id','user_id']);
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
             $table->dateTime('deleted_at')->nullable();
